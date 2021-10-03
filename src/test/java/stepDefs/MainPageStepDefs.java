@@ -3,6 +3,9 @@ package stepDefs;
 import Pages.MainPage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -31,9 +34,9 @@ public class MainPageStepDefs {
         System.out.println(mainPage.getAllProductNamesWithLowerPrice(price));
     }
 
-    @Then("User sees {string} contains categories")
-    public void user_sees_books_contains_categories(String categoryName, DataTable dataTable) {
-
-
+    @Then("User sees {string} contains subcategories")
+    public void user_sees_category_contains_subcategories(String categoryName, DataTable dataTable) {
+        List<String> subcategories = dataTable.asList();
+        assertEquals(subcategories, mainPage.getSubcategories(categoryName));
     }
 }

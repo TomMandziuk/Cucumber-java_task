@@ -1,6 +1,7 @@
 package Pages;
 import Components.Product;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -14,9 +15,6 @@ public class MainPage extends BasePage{
 
     @FindBy(xpath = ".//select[@name='language']")
     private WebElement languagesBar;
-
-    @FindBy(xpath ="//div[contains(@class, 'side_categories')]")
-    private WebElement sideBarCategories;
 
     public MainPage(){ PageFactory.initElements(getDriver(), this); }
 
@@ -42,8 +40,14 @@ public class MainPage extends BasePage{
         return productsWithLowerPrice;
     }
 
-
-    public boolean ifSideBarCategoriesIsPresent() {
-        return sideBarCategories.isDisplayed();
+    public List<String> getSubcategories(String category){
+        List<String> subcategories = new ArrayList<>();
+        WebElement categoryElement = getDriver().findElement(By.xpath("//li[@class='mt-2']/a[text()[contains(., '"+category+"')]]"));
+        List<WebElement> categories = categoryElement.findElements(By.xpath("./following-sibling::ul/li/a"));
+        for(WebElement elem : categories){
+            subcategories.add(elem.getText());
+        }
+        return subcategories;
     }
 }
+
