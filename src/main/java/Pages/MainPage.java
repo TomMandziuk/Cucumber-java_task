@@ -1,10 +1,7 @@
 package Pages;
 import Components.Product;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +9,6 @@ public class MainPage extends BasePage{
 
     Product product = new Product(getDriver());
     public By productList = By.xpath("//article[contains(@class, 'product_pod')]");
-
-    @FindBy(xpath = ".//select[@name='language']")
-    private WebElement languagesBar;
-
-    public MainPage(){ PageFactory.initElements(getDriver(), this); }
 
     public void openMainPage() {getDriver().get("https://zshop.pp.ua/en-gb/catalogue/");}
 

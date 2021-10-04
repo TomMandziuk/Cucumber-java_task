@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 
 public class BasePage {
 
-    //TODO:THREAD_LOCAL, waitUntilVisible,
     public static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setDriver(WebDriver webDriver) {
