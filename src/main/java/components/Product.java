@@ -1,4 +1,4 @@
-package Components;
+package components;
 
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -33,12 +33,12 @@ public class Product {
         List<Product> products = new ArrayList<>();
         List<WebElement> boxElements = webDriver.findElements(boxcontainer);
         for(WebElement element : boxElements){
-            WebElement imageProduct = element.findElement(By.xpath(".//div[contains(@class, 'image_container')]"));
-            String nameProduct = element.findElement(By.xpath(".//h3[@class='mt-3']")).getText();
-            double priceProduct = Double.parseDouble(element.findElement(By.xpath(".//p[@class='price_color']")).getText().substring(1));
-            String availabilityProduct = element.findElement(By.xpath(".//p[contains(@class,'instock')]")).getText();
-            WebElement productAddToBasket = element.findElement(By.xpath(".//form[contains(@action,'add')]"));
-            Product product = new Product(imageProduct, nameProduct, priceProduct, availabilityProduct, productAddToBasket);
+            WebElement image = element.findElement(By.xpath(".//div[contains(@class, 'image_container')]"));
+            String name = element.findElement(By.xpath(".//h3[@class='mt-3']")).getText();
+            double price = Double.parseDouble(element.findElement(By.xpath(".//p[@class='price_color']")).getText().substring(1));
+            String availability = element.findElement(By.xpath(".//p[contains(@class,'instock')]")).getText();
+            WebElement addToBasketButton = element.findElement(By.xpath(".//form[contains(@action,'add')]"));
+            Product product = new Product(image, name, price, availability, addToBasketButton);
             products.add(product);
         }
         return products;

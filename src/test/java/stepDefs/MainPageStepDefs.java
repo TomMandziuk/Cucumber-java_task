@@ -1,6 +1,6 @@
 package stepDefs;
 
-import Pages.MainPage;
+import pages.MainPage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 

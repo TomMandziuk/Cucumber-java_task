@@ -1,6 +1,7 @@
+
 package hooks;
 
-import DriverManager.DriverManager;
+import driverManager.DriverManager;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
@@ -8,11 +9,11 @@ public class Hooks {
 
     @Before
     public void initDriver(){
-        DriverManager.setUpDriver();
+        DriverManager.getDriver();
     }
     @After
     public void quiteBrowser(){
-        DriverManager.quiteDriver();
+        DriverManager.killDriver();
     }
 
 }
