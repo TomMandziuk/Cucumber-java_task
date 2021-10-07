@@ -1,9 +1,9 @@
 package pages;
+import com.codeborne.selenide.Condition;
 import components.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import static com.codeborne.selenide.Selenide.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,23 +12,19 @@ import static driverManager.DriverManager.getDriver;
 
 public class MainPage extends BasePage {
 
-    Product products = new Product(getDriver());
     protected By productList = By.xpath("//article[contains(@class, 'product_pod')]");
-
-    @FindBy(xpath ="//div[contains(@class, 'side_categories')]")
-    private WebElement sideCategoriesBar;
-
-    public MainPage(){
-        PageFactory.initElements(getDriver(), this);
-    }
+    protected By loginButton = By.xpath("//a[@id='login_link']");
+    protected By successfulLoginMessage = By.xpath("//div[@class[contains(., 'alert-success')]]");
+    protected By subCategories = By.xpath("./following-sibling::ul/li/a");
 
     public void openMainPage() {
-        getDriver().get("https://zshop.pp.ua/en-gb/catalogue/");
-        waitUntilVisible(sideCategoriesBar, 10);
+        open("https://zshop.pp.ua/en-gb/catalogue/");
+        $(productList).shouldBe(Condition.visible);
     }
 
 
     public List<Product> getAllProducts() {
+        Product products = new Product(getDriver());
         return products.getAllItems(productList);
     }
 
@@ -43,17 +39,28 @@ public class MainPage extends BasePage {
             if (prod.getPriceProduct() <= price) {
                 productsWithLowerPrice.add(prod.getNameProduct());
             }
+            if(!productsWithLowerPrice.isEmpty()){
+                System.out.println(productsWithLowerPrice);
+            }
         }
         return productsWithLowerPrice;
     }
 
     public List<String> getSubcategories(String category) {
         List<String> subcategories = new ArrayList<>();
-        WebElement categoryElement = getDriver().findElement(By.xpath("//li[@class='mt-2']/a[text()[contains(., '" + category + "')]]"));
-        List<WebElement> categories = categoryElement.findElements(By.xpath("./following-sibling::ul/li/a"));
-        for (WebElement elem : categories) {
-            subcategories.add(elem.getText());
+        WebElement categoryElement = $(By.xpath("//li[@class='mt-2']/a[text()[contains(., '" + category + "')]]"));
+        List<WebElement> subCategoriesList = $(categoryElement).findElements(subCategories);
+        for (WebElement subCategoryItem : subCategoriesList) {
+            subcategories.add(subCategoryItem.getText());
         }
         return subcategories;
+    }
+
+    public void goToLoginPage(){
+        $(loginButton).click();
+    }
+
+    public void checkIfSuccessfulLoginMessageIsPresent(){
+        $(successfulLoginMessage).shouldBe(Condition.visible);
     }
 }

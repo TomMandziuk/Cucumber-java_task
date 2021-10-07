@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
+import static com.codeborne.selenide.Selenide.*;
 
 @Getter
 public class Product {
@@ -16,6 +17,12 @@ public class Product {
     private double priceProduct;
     private String availabilityProduct;
     private WebElement productAddToBasket;
+
+    By imageContainer = By.xpath(".//div[contains(@class, 'image_container')]");
+    By nameContainer = By.xpath(".//h3[@class='mt-3']");
+    By priceContainer = By.xpath(".//p[@class='price_color']");
+    By availabilityContainer = By.xpath(".//p[contains(@class,'instock')]");
+    By buttonContainer = By.xpath(".//form[contains(@action,'add')]");
 
     public Product(WebDriver driver){
         webDriver = driver;
@@ -31,13 +38,13 @@ public class Product {
 
     public List<Product> getAllItems(By boxcontainer){
         List<Product> products = new ArrayList<>();
-        List<WebElement> boxElements = webDriver.findElements(boxcontainer);
+        List<WebElement> boxElements = $(boxcontainer).findElements(boxcontainer);
         for(WebElement element : boxElements){
-            WebElement image = element.findElement(By.xpath(".//div[contains(@class, 'image_container')]"));
-            String name = element.findElement(By.xpath(".//h3[@class='mt-3']")).getText();
-            double price = Double.parseDouble(element.findElement(By.xpath(".//p[@class='price_color']")).getText().substring(1));
-            String availability = element.findElement(By.xpath(".//p[contains(@class,'instock')]")).getText();
-            WebElement addToBasketButton = element.findElement(By.xpath(".//form[contains(@action,'add')]"));
+            WebElement image = $(element).findElement(imageContainer);
+            String name = $(element).findElement(nameContainer).getText();
+            double price = Double.parseDouble($(element).findElement(priceContainer).getText().substring(1));
+            String availability = $(element).findElement(availabilityContainer).getText();
+            WebElement addToBasketButton = $(element).findElement(buttonContainer);
             Product product = new Product(image, name, price, availability, addToBasketButton);
             products.add(product);
         }
