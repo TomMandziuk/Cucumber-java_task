@@ -17,8 +17,10 @@ public class MainPage extends BasePage {
     protected By successfulLoginMessage = By.xpath("//div[@class[contains(., 'alert-success')]]");
     protected By subCategories = By.xpath("./following-sibling::ul/li/a");
 
+    String baseUrl = "https://zshop.pp.ua/en-gb/catalogue/";
+
     public void openMainPage() {
-        open("https://zshop.pp.ua/en-gb/catalogue/");
+        open(baseUrl);
         $(productList).shouldBe(Condition.visible);
     }
 
